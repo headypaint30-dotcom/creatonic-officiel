@@ -1,0 +1,17 @@
+/* COULEURS */
+.color { --gold: #FFD700; --orange: #FFA500; --darkorange: #FF8C00; --burnt: #CC5500; --black: #000; --dark: #16213e;  }
+/* POLICES */
+.subtitle
+{font-family: 'Inter', sans-serif;     /* Texte normal */
+ font-family: 'Orbitron', sans-serif; }  /* Titres futuristes */
+
+.card {
+background: #16213e;
+border: 2px solid #FFD700;
+border-radius: 16px;
+padding: 20px;
+margin: 20px auto;
+max-width: 600px;
+}
+
+.bold { font-weight: 700; color: #FFD700; }

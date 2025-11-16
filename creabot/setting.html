@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CréaTonic • Paramètres UI</title>
+  <link rel="stylesheet" href="support.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.querySelector('.lang-toggle');
+      const dropdown = document.querySelector('.dropdown');
+      const arrow = toggle.querySelector('.arrow');
+
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = dropdown.classList.toggle('open');
+        arrow.style.transform = isOpen ? 'rotate(90deg)' : 'rotate(0deg)';
+      });
+
+      // Fermer en cliquant ailleurs
+      document.addEventListener('click', () => {
+        dropdown.classList.remove('open');
+        arrow.style.transform = 'rotate(0deg)';
+      });
+
+      // Empêcher la fermeture si on clique dans le menu
+      dropdown.addEventListener('click', (e) => e.stopPropagation());
+    });
+  </script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo"><span class="gradient">CréaTonic</span></div>
+
+    <!-- Flèche cliquable + menu -->
+    <div class="lang-toggle">
+      <span class="arrow">▶</span>
+      <div class="dropdown">
+        <a href="Fr-Da/index.html">French-Dark</a>
+        <a href="Fr-Wh/index.html">French-White</a>
+        <a href="En-Da/index.html">English-Dark</a>
+        <a href="En-Wh/index.html">English-White</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="content">
+    <h1>Paramètre <span class="gradient">UI</span></h1>
+    <h1>Setting <span class="gradient">UI</span></h1>
+    <p>Veuillez sélectionner un language et un thème</p>
+    <p>Please select a Language and a theme</p>
+  </div>
+
+  <div class="footer">Créé par le CO-OWNER du serveur Backroom SMP : Erwan. Tout droit reservé à headypaint30@gmail.com.</div>
+  <div class="footer">Created by the CO-OWNER on Backroom SMP server : Erwan. All right reserved for headypaint30@gmail.com</div>
+</body>
+</html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CréaCalcu</title>
+  <link rel="stylesheet" href="support.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    /* === TON CSS EXISTANT (raccourci) === */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(270deg, #FFD700, #FFA500, #FF8C00, #CC5500, #000000);
+      animation: gradientShift 20s ease infinite;
+      background-attachment: fixed;
+      min-height: 100vh;
+      padding-top: 80px;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .navbar {
+      position: fixed; top: 0; left: 0; width: 100%; padding: 20px 50px;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(10, 10, 20, 0.9); backdrop-filter: blur(12px);
+      border-bottom: 1px solid #ffd70033; z-index: 1000;
+    }
+    .logo { font-family: 'Orbitron', sans-serif; font-size: 1.8em; font-weight: 700; color: #FFD700; }
+    .nav-links { list-style: none; display: flex; gap: 35px; }
+    .nav-links a {
+      color: #ffd700; text-decoration: none; font-weight: 500; font-size: 1.1em;
+      position: relative; transition: color 0.3s;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -8px; left: 0; width: 0; height: 2px;
+      background: #ffd700; transition: width 0.3s;
+    }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+    .nav-links a:hover, .nav-links a.active { color: #fff; }
+    .content, .subcontent {
+      max-width: 800px; margin: 0 auto; padding: 40px 20px; text-align: center;
+    }
+    .subcontent {
+      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
+      border: 2px solid #ffd700; border-radius: 16px;
+    }
+    h1 { font-family: 'Orbitron', sans-serif; font-size: 3.5em; color: #FFD700; }
+    .btn {
+      display: inline-block; padding: 14px 32px; background: linear-gradient(45deg, #ffd700, #ffaa00);
+      color: #000; text-decoration: none; border-radius: 50px; font-weight: bold;
+      font-size: 1.1em; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(255, 215, 0, 0.5); }
+
+    /* === CALCULATRICE INTÉGRÉE === */
+    .calculator {
+      width: 380px;
+      height: 620px;
+      margin: 40px auto;
+      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 2px solid #FFD700;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 
+        0 0 30px rgba(255, 215, 0, 0.3),
+        inset 0 0 20px rgba(255, 215, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .calc-title {
+      text-align: center;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 26px;
+      font-weight: 900;
+      background: linear-gradient(90deg, #FFD700, #FFA500, #FF8C00);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+      margin-bottom: 15px;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
+      to { text-shadow: 0 0 25px rgba(255, 215, 0, 0.8), 0 0 35px rgba(255, 140, 0, 0.6); }
+    }
+
+    .display {
+      height: 90px;
+      background: rgba(10, 10, 20, 0.8);
+      border-radius: 16px;
+      margin-bottom: 20px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 32px;
+      color: #FFD700;
+      font-weight: 700;
+      border: 1px solid #FFD70066;
+      box-shadow: inset 0 0 15px rgba(255, 215, 0, 0.2);
+      overflow: hidden;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    button {
+      height: 68px;
+      border-radius: 16px;
+      border: 2px solid transparent;
+      background: linear-gradient(145deg, #1a1a2e, #16213e);
+      color: #FFD700;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+      transition: 0.6s;
+    }
+
+    button:hover::before {
+      left: 100%;
+    }
+
+    button:hover {
+      background: linear-gradient(145deg, #16213e, #1a1a2e);
+      border-color: #FFA500;
+      color: #FFA500;
+      transform: translateY(-3px);
+      box-shadow: 0 0 20px rgba(255, 165, 0, 0.6);
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    .operator { color: #FF8C00; }
+    .equals {
+      background: linear-gradient(45deg, #FFD700, #FFA500) !important;
+      color: #000 !important;
+      font-weight: 900;
+    }
+    .equals:hover {
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.8) !important;
+      transform: translateY(-4px);
+    }
+
+    /* Particules dorées */
+    .particle {
+      position: absolute;
+      background: #FFD700;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.7;
+      animation: floatUp 2s linear forwards;
+    }
+
+    @keyframes floatUp {
+      to {
+        transform: translateY(-150px) scale(0);
+        opacity: 0;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .calculator { width: 340px; height: 580px; }
+      .display { font-size: 28px; height: 80px; }
+      button { height: 60px; font-size: 16px; }
+    }
+  </style>
+  <script src="script.js"></script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+  <div class="logo"><span class="gradient">CréaTonic</span></div>
+  
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="discord.html">Discord</a></li>
+    <li><a href="youtube.html">YouTube</a></li>
+    <li><a href="support.html">Support</a></li>
+    <li><a href="calculator.html" class="active">CréaCalcu</a></li>
+  </ul>
+
+  <!-- FLÈCHE + MENU -->
+  <div class="lang-toggle">
+    <span class="arrow">▶</span>
+    <div class="dropdown">
+      <a href="../Fr-Da/index.html">French-Dark</a>
+      <a href="../Fr-Wh/index.html">French-White</a>
+      <a href="../En-Da/index.html">English-Dark</a>
+      <a href="../En-Wh/index.html">English-White</a>
+    </div>
+  </div>
+</nav>
+
+  <!-- CONTENU -->
+  <div class="content">
+    <h1>NEURA∞CALC</h1>
+  </div>
+
+  <!-- CALCULATRICE INTÉGRÉE -->
+  <div class="subcontent">
+    <div class="calculator">
+      <div class="calc-title">NEURA∞CALC</div>
+      <div class="display" id="display">0</div>
+      <div class="buttons">
+        <button class="operator" onclick="clearAll()">C</button>
+        <button class="operator" onclick="toggleSign()">±</button>
+        <button class="operator" onclick="percent()">%</button>
+        <button class="operator" onclick="input('÷')">÷</button>
+
+        <button onclick="input('7')">7</button>
+        <button onclick="input('8')">8</button>
+        <button onclick="input('9')">9</button>
+        <button class="operator" onclick="input('×')">×</button>
+
+        <button onclick="input('4')">4</button>
+        <button onclick="input('5')">5</button>
+        <button onclick="input('6')">6</button>
+        <button class="operator" onclick="input('−')">−</button>
+
+        <button onclick="input('1')">1</button>
+        <button onclick="input('2')">2</button>
+        <button onclick="input('3')">3</button>
+        <button class="operator" onclick="input('+')">+</button>
+
+        <button onclick="input('0')" style="grid-column: span 2;">0</button>
+        <button onclick="input('.')">.</button>
+        <button class="equals" onclick="calculate()">=</button>
+
+        <button onclick="input('Math.sqrt(')">√</button>
+        <button onclick="input('Math.sin(Math.PI/180*')">sin</button>
+        <button onclick="input('Math.cos(Math.PI/180*')">cos</button>
+        <button onclick="input('Math.PI')">π</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+    let expression = '';
+    let shouldReset = false;
+
+    function input(val) {
+      if (shouldReset) { expression = ''; shouldReset = false; }
+      expression += val;
+      updateDisplay();
+      createParticle();
+    }
+
+    function clearAll() {
+      expression = '';
+      updateDisplay();
+    }
+
+    function toggleSign() {
+      if (expression) {
+        const num = parseFloat(expression);
+        expression = (-num).toString();
+        updateDisplay();
+      }
+    }
+
+    function percent() {
+      if (expression) {
+        expression = (parseFloat(expression) / 100).toString();
+        updateDisplay();
+      }
+    }
+
+    function calculate() {
+      try {
+        let expr = expression
+          .replace(/×/g, '*')
+          .replace(/÷/g, '/')
+          .replace(/−/g, '-')
+          .replace(/Math\./g, 'Math.');
+        
+        let result = eval(expr);
+        if (isNaN(result) || !isFinite(result)) throw "Error";
+        
+        expression = result.toString();
+        shouldReset = true;
+        updateDisplay();
+      } catch {
+        display.textContent = 'ERROR';
+        expression = '';
+        setTimeout(updateDisplay, 1000);
+      }
+    }
+
+    function updateDisplay() {
+      display.textContent = expression || '0';
+    }
+
+    function createParticle() {
+      const p = document.createElement('div');
+      p.classList.add('particle');
+      const calc = document.querySelector('.calculator');
+      p.style.left = Math.random() * 340 + 20 + 'px';
+      p.style.top = '120px';
+      p.style.width = p.style.height = Math.random() * 3 + 2 + 'px';
+      calc.appendChild(p);
+      setTimeout(() => p.remove(), 2000);
+    }
+
+    // Clavier
+    document.addEventListener('keydown', e => {
+      const key = e.key;
+      if (key >= '0' && key <= '9' || key === '.') input(key);
+      if (key === '+') input('+');
+      if (key === '-') input('−');
+      if (key === '*') input('×');
+      if (key === '/') input('÷');
+      if (key === 'Enter') calculate();
+      if (key === 'Escape') clearAll();
+      if (key === 'Backspace') expression = expression.slice(0, -1), updateDisplay();
+    });
+  </script>
+
+</body>
+<div class="footer">Créé par le CO-OWNER du serveur Backroom SMP : Erwan. Tout droit reservé à headypaint30@gmail.com.</div>
+</html>
