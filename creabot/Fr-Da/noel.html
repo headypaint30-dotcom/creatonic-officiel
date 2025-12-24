@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>CréaTonic • Joyeux Noël la commu ! ❄️</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Orbitron:wght@700&display=swap">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(270deg, #0f1e4a, #1e3a72, #2a4e8c, #0f1e4a);
+            animation: gradientShift 25s ease infinite;
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding-top: 80px;
+            color: #fff;
+            position: relative;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: url('https://w0.peakpx.com/wallpaper/782/23/HD-wallpaper-magical-christmas-village-in-realmcraft-minecraft-style-game-open-world-game-gaming-playgames-pixel-games-mobile-games-realmcraft-sandbox-minecraft-games-action-game-minecrafters-pixel.jpg') center/cover;
+            opacity: 0.12;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* NAVIGATION FIXE (identique à la page principale) */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 20, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #ffd70033;
+            z-index: 1000;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .logo { font-family: 'Orbitron', sans-serif; font-size: 1.8em; font-weight: 700; }
+        .gradient {
+            background: linear-gradient(45deg, #ffd700, #ffaa00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 35px;
+        }
+        .nav-links a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1em;
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ffd700;
+            transition: width 0.3s;
+        }
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #fff;
+        }
+
+        /* CONTENU */
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(90deg, #ffd700, #ff6b6b, #4ecdc4, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 300%;
+            animation: rainbowText 10s linear infinite;
+        }
+        @keyframes rainbowText {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 300% 50%; }
+        }
+        p {
+            font-size: 1.3em;
+            color: #ddd;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        .message-card {
+            background: rgba(20, 30, 60, 0.75);
+            border: 3px solid #ffd700;
+            border-radius: 16px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        .signature {
+            margin-top: 40px;
+            font-size: 1.4em;
+            color: #ffd700;
+            font-weight: bold;
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background: linear-gradient(45deg, #ffd700, #ffaa00);
+            color: #000;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 215, 0, 0.5);
+        }
+        .footer { margin-top: 60px; font-size: 0.9rem; color: #ffd700; text-align: center; }
+
+        /* Flocons simples */
+        .snow-container {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 999;
+            overflow: hidden;
+        }
+        .snowflake {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.7;
+            box-shadow: 0 0 6px white;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            to { transform: translateY(100vh) translateX(40px) rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar { padding: 15px 20px; flex-direction: column; gap: 15px; }
+            .nav-links { gap: 20px; flex-wrap: wrap; justify-content: center; }
+            h1 { font-size: 2.6em; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Flocons -->
+    <div class="snow-container" id="snow"></div>
+
+    <!-- Navbar (copie-colle de ta page principale, adapte les liens si besoin) -->
+    <nav class="navbar">
+        <div class="logo"><span class="gradient">CréaTonic</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="discord.html">Discord</a></li>
+            <li><a href="youtube.html">YouTube</a></li>
+            <li><a href="support.html">Support</a></li>
+            <li><a href="calculator.html">CréaCalcu</a></li>
+            <li><a href="noel.html" class="active">Noël Annonce></a></li>
+            <!-- Ajoute tes vrais liens ici si différents -->
+        </ul>
+    </nav>
+
+    <div class="content">
+        <h1>Joyeux Noël la commu ! 🎄❄️</h1>
+
+        <div class="message-card">
+            <p>Salut la meilleure bande de potes du monde ! ❤️</p>
+            <p>En cette fin d'année, je voulais juste vous dire un énorme merci pour tout l'amour, les rires, les builds de ouf et les moments partagés sur le serveur.</p>
+            <p>Vous rendez CréaTonic unique et vivant chaque jour. Sans vous, ce serait juste des blocs qui s'ennuient.</p>
+            <p>Profitez bien des fêtes, mangez trop, ouvrez des cadeaux (et venez farmer les miens en janvier 😏), et surtout restez comme vous êtes : parfaits.</p>
+            <p class="signature">Joyeux Noël et plein d'amour,<br>CrunchCrunch? 💎🎅</p>
+        </div>
+
+        <a href="index.html" class="btn">← Retour à l'accueil</a>
+    </div>
+
+    <div class="footer">
+        CréaTonic SMP • Fait avec ♥ pour la commu • 2025
+    </div>
+
+    <script>
+        // Création des flocons
+        function createSnowflake() {
+            const container = document.getElementById('snow');
+            const flake = document.createElement('div');
+            flake.className = 'snowflake';
+            flake.style.left = Math.random() * 100 + 'vw';
+            flake.style.animationDuration = (Math.random() * 6 + 10) + 's';
+            flake.style.width = flake.style.height = (Math.random() * 6 + 4) + 'px';
+            flake.style.opacity = Math.random() * 0.4 + 0.5;
+            container.appendChild(flake);
+            setTimeout(() => flake.remove(), 25000);
+        }
+        setInterval(createSnowflake, 300);
+        for(let i = 0; i < 35; i++) createSnowflake(); // flocons au démarrage
+    </script>
+</body>
+</html>
